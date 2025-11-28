@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { AttendanceCard } from './AttendanceCard';
 
-export function StudentList({ students, getStatus, updateStatus, removeStudent, onAddStudent }) {
+export function StudentList({ students, getStatus, updateStatus, getRemarks, updateRemarks, removeStudent, onAddStudent }) {
     const [newStudentName, setNewStudentName] = useState('');
 
     const handleSubmit = (e) => {
@@ -44,7 +44,9 @@ export function StudentList({ students, getStatus, updateStatus, removeStudent, 
                             key={student.id}
                             student={student}
                             status={getStatus(student.id)}
+                            remarks={getRemarks(student.id)}
                             onUpdateStatus={updateStatus}
+                            onUpdateRemarks={updateRemarks}
                             onRemove={removeStudent}
                         />
                     ))

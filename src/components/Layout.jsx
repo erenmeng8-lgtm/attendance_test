@@ -9,7 +9,10 @@ export function Layout({ children }) {
                     <div className="p-2 bg-blue-600 rounded-lg">
                         <ClipboardList className="w-6 h-6 text-white" />
                     </div>
-                    <h1 className="text-xl font-bold text-gray-900">Attendance</h1>
+                    <div>
+                        <h1 className="text-xl font-bold text-gray-900 leading-none">Attendance</h1>
+                        <p className="text-[10px] font-medium text-gray-500">ALPHA COY 1st Platoon 4th Squad</p>
+                    </div>
                 </div>
             </header>
 

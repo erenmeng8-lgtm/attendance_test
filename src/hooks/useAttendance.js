@@ -40,17 +40,60 @@ export function useAttendance() {
     const dateKey = format(currentDate, 'yyyy-MM-dd');
 
     const getStatus = (studentId) => {
-        return attendance[dateKey]?.[studentId] || null;
+        const record = attendance[dateKey]?.[studentId];
+        if (!record) return null;
+        // Handle both old (string) and new (object) formats
+        return typeof record === 'string' ? record : record.status;
+    };
+
+    const getRemarks = (studentId) => {
+        const record = attendance[dateKey]?.[studentId];
+        if (!record || typeof record === 'string') return '';
+        return record.remarks || '';
     };
 
     const updateStatus = (studentId, status) => {
-        setAttendance(prev => ({
-            ...prev,
-            [dateKey]: {
-                ...prev[dateKey],
-                [studentId]: status
-            }
-        }));
+        setAttendance(prev => {
+            const currentRecord = prev[dateKey]?.[studentId];
+            const currentRemarks = (currentRecord && typeof currentRecord !== 'string')
+                ? currentRecord.remarks
+                : '';
+
+            return {
+                ...prev,
+                [dateKey]: {
+                    ...prev[dateKey],
+                    [studentId]: {
+                        status,
+                        remarks: currentRemarks
+                    }
+                }
+            };
+        });
+    };
+
+    const updateRemarks = (studentId, remarks) => {
+        setAttendance(prev => {
+            const currentRecord = prev[dateKey]?.[studentId];
+            // If no record exists, we can't really add remarks easily without a status, 
+            // but let's assume we can have remarks with null status.
+            // Or better, preserve existing status if any.
+
+            const currentStatus = (currentRecord && typeof currentRecord === 'string')
+                ? currentRecord
+                : (currentRecord?.status || null);
+
+            return {
+                ...prev,
+                [dateKey]: {
+                    ...prev[dateKey],
+                    [studentId]: {
+                        status: currentStatus,
+                        remarks
+                    }
+                }
+            };
+        });
     };
 
     return {
@@ -61,6 +104,8 @@ export function useAttendance() {
         setCurrentDate,
         getStatus,
         updateStatus,
+        getRemarks,
+        updateRemarks,
         dateKey
     };
 }
