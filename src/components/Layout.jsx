@@ -11,7 +11,7 @@ export function Layout({ children }) {
                     </div>
                     <div>
                         <h1 className="text-xl font-bold text-gray-900 leading-none">Attendance</h1>
-                        <p className="text-[10px] font-medium text-gray-500">ALPHA COY 1st Platoon 4th Squad</p>
+                        <p className="text-[10px] font-medium text-gray-500">Daily</p>
                     </div>
                 </div>
             </header>
